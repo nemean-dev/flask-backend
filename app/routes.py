@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, url_for
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 import sqlalchemy as sa
 from app import app, db
 from app.forms import LoginForm
@@ -41,3 +41,8 @@ def login():
             return redirect(url_for('index'))
 
     return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
