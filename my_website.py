@@ -1,6 +1,6 @@
 # from app import app
 import sqlalchemy as sa
-import sqlalchemy.orm as so
+import sqlalchemy.orm as orm
 from app import app, db
 from app.models import User, Post
 
@@ -8,4 +8,4 @@ from app.models import User, Post
 # with `flask shell`
 @app.shell_context_processor
 def make_shell_context():
-    return {'sa': sa, 'so': so, 'db': db, 'User': User, 'Post': Post}
+    return {'sa': sa, 'so': orm, 'db': db, 'User': User, 'Post': Post}
