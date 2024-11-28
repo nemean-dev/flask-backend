@@ -3,7 +3,7 @@ from flask import render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import app, db
-from app.forms import LoginForm
+from app.forms import LoginForm, RegistrationForm
 from app.models import User
 
 @app.route('/')
@@ -54,3 +54,25 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    
+    form = RegistrationForm()
+
+    if form.validate_on_submit():
+        new_user = User(
+            email = form.email.data,
+            username = form.username.data
+        )
+        new_user.set_password(form.password.data)
+
+        db.session.add(new_user)
+        db.session.commit()
+        
+        flash('Congratulations, you are now a registered user! Please sign in')
+        return redirect(url_for('login'))
+    
+    return render_template('register.html', title= 'Sign Up', form= form)
