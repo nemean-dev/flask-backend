@@ -20,6 +20,7 @@ class RegistrationForm(FlaskForm):
     password2 = StringField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
+    # methods that match the pattern 'validate_<field_name>' are invoked automatically by wtforms
     def validate_username(self, username):
         user = db.session.scalar(sa.select(User).where(
             User.username == username.data))
