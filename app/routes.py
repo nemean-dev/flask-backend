@@ -76,3 +76,15 @@ def register():
         return redirect(url_for('login'))
     
     return render_template('register.html', title= 'Sign Up', form= form)
+
+# dynamic routing in flask passes <string_var> as view function argument
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = db.first_or_404(sa.select(User).where(User.username == username))
+    posts = [
+        {'author': user, 'body': 'test post #1: some random post'},
+        {'author': user, 'body': 'test post #2'}
+    ]
+
+    return render_template('user.html', user=user, posts=posts)

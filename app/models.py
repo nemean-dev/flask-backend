@@ -28,6 +28,18 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
+    def avatar(self, size):
+        '''
+        Returns svg with dimensions size height x size width.
+        TODO: future implementation should return URL of their avatar/profile pic.
+        Not using gravatar due to privacy concerns.
+        '''
+        if not isinstance(size, (int, float)) or size < 0:
+            raise ValueError("Size must be a positive number.")
+
+        return f'<svg fill="#081759" height="{size}px" width="{size}px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" stroke="#081759"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <circle cx="256" cy="114.526" r="114.526"></circle> </g> </g> <g> <g> <path d="M256,256c-111.619,0-202.105,90.487-202.105,202.105c0,29.765,24.13,53.895,53.895,53.895h296.421 c29.765,0,53.895-24.13,53.895-53.895C458.105,346.487,367.619,256,256,256z"></path> </g> </g> </g></svg>'
+
+   
 class Post(db.Model):
     id: orm.Mapped[int] = orm.mapped_column(primary_key=True)
     body: orm.Mapped[str] = orm.mapped_column(sa.String(600))
