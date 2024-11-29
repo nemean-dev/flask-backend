@@ -9,11 +9,6 @@
     </table>
     <hr>
     {% for post in posts %}
-    <table>
-        <tr valign="top">
-            <td>{{ post.author.avatar(36) | safe}}</td>
-            <td>{{ post.author.username }} says:<br>{{ post.body }}</td>
-        </tr>
-    </table>
+        {% include '_post.html' %}
     {% endfor %}
 {% endblock %}
