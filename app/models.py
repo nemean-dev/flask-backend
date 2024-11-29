@@ -15,6 +15,9 @@ class User(UserMixin, db.Model):
     fname: orm.Mapped[Optional[str]] = orm.mapped_column(sa.String(128))
     lname: orm.Mapped[Optional[str]] = orm.mapped_column(sa.String(128))
     password_hash: orm.Mapped[str] = orm.mapped_column(sa.String(256))
+    about_me: orm.Mapped[Optional[str]] = orm.mapped_column(sa.String(140))
+    last_seen: orm.Mapped[Optional[datetime]] = orm.mapped_column(
+        default=lambda: datetime.now(timezone.utc))
 
     posts: orm.WriteOnlyMapped['Post'] = orm.relationship(
         back_populates='author')
