@@ -1,6 +1,7 @@
 venv
 *__pycache__*
 *.db
+resources/dummy_passwords.txt
 
 # ------------- from Python.gitignore: ------------- #
 # Byte-compiled / optimized / DLL files
