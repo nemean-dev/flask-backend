@@ -1,10 +1,19 @@
 from urllib.parse import urlsplit
+from datetime import datetime, timezone
 from flask import render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
 from app.models import User
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.now(timezone.utc)
+        db.session.commit()
+        # db.session.add() not needed because any current_user reference invokes user loader callback function, 
+        # which will run a database query that will put the target user in the db session.
 
 @app.route('/')
 @app.route('/index')
