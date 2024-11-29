@@ -5,9 +5,18 @@
         <tr valign="top">
             <td>{{ user.avatar(128) | safe }}</td>
             <td>
-                <h1>User: {{ user.username }}</h1>
-                {% if user.about_me }<p>{% user.about_me %}</p>{% endif %}
-                {% if user.last_seen }<p>Last seen on: {% user.last_seen %}</p>{% endif %}
+                {% if user.fname %}
+                    <h1>{{ user.fname }} {{ user.lname }}</h1>
+                    <h2>User: {{ user.username }}</h2>
+                {% else %}
+                    <h1>User: {{ user.username }}</h1>
+                {% endif %}
+                {% if user.about_me }
+                    <p>{% user.about_me %}</p>
+                {% endif %}
+                {% if user.last_seen }
+                    <p>Last seen on: {% user.last_seen %}</p>
+                {% endif %}
             </td>
         </tr>
     </table>

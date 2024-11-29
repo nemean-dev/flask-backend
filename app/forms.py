@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 import sqlalchemy as sa
 from app import db
 from app.models import User
@@ -13,8 +13,8 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    # fname = StringField('First Name')
-    # lname = StringField('Last Name') TODO:
+    fname = StringField('First Name', validators=[Length(max=128)])
+    lname = StringField('Last Name', validators=[Length(max=128)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = StringField('Password', validators=[DataRequired()])
     password2 = StringField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
@@ -32,3 +32,10 @@ class RegistrationForm(FlaskForm):
             User.email == email.data))
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+class EditProfileForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    fname = StringField('First Name', validators=[Length(max=128)])
+    lname = StringField('Last Name', validators=[Length(max=128)])
+    about_me = TextAreaField("About Me: ", validators=[Length(max=140)])
+    submit = SubmitField('Update details')
