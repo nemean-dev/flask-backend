@@ -1,9 +1,12 @@
+<!-- 
+ Required variables:
+ - 'posts': List[Post]
+-->
 {% extends "base.html" %}
 
 {% block content %}
     <h1>Hi, {{ current_user.username }}!</h1>
     {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-    <!-- TODO: Refactor to use _post.html sub-template -->
+        {% include '_post.html' %}
     {% endfor %}
 {% endblock %}
