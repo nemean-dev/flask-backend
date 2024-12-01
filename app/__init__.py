@@ -11,4 +11,4 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login' # on views with @login_required; redirect to 'login' and come back once logged in.
 
-from app import routes, models
+from app import routes, models, errors
