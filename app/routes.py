@@ -21,12 +21,12 @@ def before_request():
 def index():
     posts = [
         {
-            'author': {'username': 'Buzz Aldrin'},
+            'author': db.session.get(User, 1),
             'body': 'The little blue dot is so pretty.'
         },
         {
-            'author': {'username': 'Musky Musk'},
-            'body' : 'I hate worker unions!'
+            'author': db.session.get(User, 2),
+            'body' : 'I see trees of green, \n  Red roses too.'
         }
     ]
     return render_template('index.html', title = 'Home', posts= posts)
