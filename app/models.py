@@ -6,6 +6,15 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin # properties/methods flask_login expects in the user model
 from app import db, login
 
+# association table. Since it is just an auxiliary table, it is not declared as a model.
+follower_followed = sa.Table(
+    'followers',
+    db.metadata,
+    sa.Column('follower_id', sa.Integer, sa.ForeignKey('user.id'), primary_key=True),
+    sa.Column('followed_id', sa.Integer, sa.ForeignKey('user.id'), primary_key=True)
+    # the way to create a compound primary key is to declare both cols as primary keys
+)
+
 class User(UserMixin, db.Model):
     id: orm.Mapped[int] = orm.mapped_column(primary_key=True)
     username: orm.Mapped[str] = orm.mapped_column(sa.String(64), index=True,
@@ -21,6 +30,19 @@ class User(UserMixin, db.Model):
 
     posts: orm.WriteOnlyMapped['Post'] = orm.relationship(
         back_populates='author')
+    
+    following: orm.WriteOnlyMapped['User'] = orm.relationship(
+        secondary=follower_followed,
+        primaryjoin=(follower_followed.c.follower_id == id),
+        secondaryjoin=(follower_followed.c.followed_id == id),
+        back_populates='followers'
+    )
+    followers: orm.WriteOnlyMapped['User'] = orm.relationship(
+        secondary=follower_followed,
+        primaryjoin=(follower_followed.c.followed_id == id),
+        secondaryjoin=(follower_followed.c.follower_id == id),
+        back_populates='following'
+    )
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
