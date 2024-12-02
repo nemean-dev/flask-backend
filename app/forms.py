@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_login import current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 import sqlalchemy as sa
@@ -39,3 +40,10 @@ class EditProfileForm(FlaskForm):
     lname = StringField('Last Name', validators=[Length(max=128)])
     about_me = TextAreaField("About Me: ", validators=[Length(max=140)])
     submit = SubmitField('Update details')
+
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = db.session.scalar(sa.select(User).where(
+                User.username == username.data))
+            if user is not None:
+                raise ValidationError('Please use a different username.')
