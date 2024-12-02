@@ -64,6 +64,51 @@ class User(UserMixin, db.Model):
 
         return f'<svg fill="#081759" height="{size}px" width="{size}px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" stroke="#081759"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <circle cx="256" cy="114.526" r="114.526"></circle> </g> </g> <g> <g> <path d="M256,256c-111.619,0-202.105,90.487-202.105,202.105c0,29.765,24.13,53.895,53.895,53.895h296.421 c29.765,0,53.895-24.13,53.895-53.895C458.105,346.487,367.619,256,256,256z"></path> </g> </g> </g></svg>'
 
+    def follow(self, user):
+        '''self will follow the given user'''
+        if not self.is_following(user):
+            self.following.add(user)
+
+    def unfollow(self, user):
+        '''self will unfollow the given user'''
+        if self.is_following(user):
+            self.following.remove(user)
+
+    def is_following(self, user):
+        '''is self following the given user?'''
+        query = self.following.select().where(User.id == user.id)
+        return db.session.scalar(query) is not None
+
+    def followers_count(self):
+        '''how many users follow self?'''
+        query = sa.select(sa.func.count()).select_from(
+            self.followers.select().subquery())
+        return db.session.scalar(query)
+
+    def following_count(self):
+        '''how many users does self follow?'''
+        query = sa.select(sa.func.count()).select_from(
+            self.following.select().subquery())
+        return db.session.scalar(query)
+    
+    def following_posts(self):
+        '''
+        Posts by the users that self is following or that self authored,
+        in descending order by most recent.
+        '''
+        Author = orm.aliased(User)
+        Follower = orm.aliased(User)
+        return (
+            sa.select(Post)
+            .join(Post.author.of_type(Author))
+            .join(Author.followers.of_type(Follower), isouter=True)
+            .where(sa.or_(
+                Follower.id == self.id,
+                Author.id == self.id
+            ))
+            .group_by(Post)
+            .order_by(Post.timestamp.desc())
+        )
    
 class Post(db.Model):
     id: orm.Mapped[int] = orm.mapped_column(primary_key=True)
