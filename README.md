@@ -26,6 +26,13 @@ To rename the project just change the name of `my_website.py` and the `FLASK_APP
 If environment variables are not defined, app will use default value hardcoded in `config.py`.
 - `SECRET_KEY` used by Flask
 - `DATABASE_URL` used by sqlalchemy
+Email Configuration (to recieve server errors by email)
+- `MAIL_SERVER`
+- `MAIL_PORT`
+- `MAIL_USE_TLS`: set to any value to use TLS. Don't declare the variable to use SSL
+- `MAIL_USERNAME`
+- `MAIL_PASSWORD`
+- `ADMINS`: comma-separated, like 'example1@example.com,example2@example.com'
 
 ## Running the app
 ### Development mode

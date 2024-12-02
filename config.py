@@ -1,8 +1,19 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY') or 'random-hardcoded-string-102839yr1ewqouir0178f290ashg98pzhaf087dshg0'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+    SECRET_KEY = os.getenv('SECRET_KEY') or \
+        'random-hardcoded-string-102839yr1ewqouWsgYM3'
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
+    
+    MAIL_SERVER = os.getenv('MAIL_SERVER')
+    MAIL_PORT = int(os.getenv('MAIL_PORT') or 25)
+    MAIL_USE_TLS = os.getenv('MAIL_USE_TLS') is not None
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+    ADMINS = os.getenv('ADMIN_EMAILS').split(',')
