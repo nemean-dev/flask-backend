@@ -93,8 +93,8 @@ class User(UserMixin, db.Model):
     
     def following_posts(self):
         '''
-        Posts by the users that self is following or that self authored,
-        in descending order by most recent.
+        Returns query representing posts by the users that self is following 
+        or that self authored, in descending order by most recent.
         '''
         Author = orm.aliased(User)
         Follower = orm.aliased(User)
