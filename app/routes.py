@@ -96,11 +96,7 @@ def register():
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
     form = EmptyForm()
-    posts = [
-        {'author': user, 'body': 'test post #1: some random post'},
-        {'author': user, 'body': 'test post #2'}
-    ]
-
+    posts = db.session.scalars(sa.select(Post).where(Post.author == user))
     return render_template('user.html', user=user, posts=posts, form=form)
 
 @app.route('/edit-profile', methods=['GET', 'POST'])
