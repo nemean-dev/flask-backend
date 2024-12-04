@@ -26,19 +26,13 @@ def index():
         db.session.add(post)
         db.session.commit()
         flash('Your post was submitted successfully!')
-        return redirect(url_for('index'))
+        
+        # redirect instead of just continuing to render_template below: 
+        # see wikipedia article on 'Post/Redirect/Get' pattern
+        return redirect(url_for('index')) 
 
-    # posts = db.session.scalars(current_user.following_posts())
-    posts = [
-        {
-            'author': db.session.get(User, 1),
-            'body': 'The little blue dot is so pretty.'
-        },
-        {
-            'author': db.session.get(User, 2),
-            'body' : 'I see trees of green, \n  Red roses too.'
-        }
-    ]
+    posts = db.session.scalars(current_user.following_posts()).all()
+
     return render_template('index.html', title= 'Home', posts= posts, form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
