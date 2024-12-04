@@ -26,7 +26,7 @@ def index():
         db.session.add(post)
         db.session.commit()
         flash('Your post was submitted successfully!')
-        
+
         # redirect instead of just continuing to render_template below: 
         # see wikipedia article on 'Post/Redirect/Get' pattern
         return redirect(url_for('index')) 
@@ -133,7 +133,6 @@ def follow(username):
 
     if form.validate_on_submit():
         user = db.session.scalar(sa.select(User).where(User.username == username))
-        user = User() #TODO: delete
 
         if user is None:
             flash(f'User {username} not found.')
