@@ -1,8 +1,9 @@
 <!-- 
   Required variables: 
-    - 'user': the user corresponding to the rendered profile 
-    - 'posts': the posts by that user
-    - 'form': EmptyForm for follow/unfollow button
+    - user: the user corresponding to the rendered profile 
+    - posts: the posts by that user
+    - form: EmptyForm for follow/unfollow button
+    - pagination: dict with 'page', 'next_url', 'prev_url'
 -->
 
 {% extends "base.html" %}
@@ -52,4 +53,11 @@
     {% for post in posts %}
         {% include '_post.html' %}
     {% endfor %}
+    {% if pagination.prev_url %}
+    <a href="{{ pagination.prev_url }}">Newer posts</a>&nbsp;&nbsp; <!-- TODO: delete here and below and user.html to use css for spacing -->
+    {% endif %}
+    page: {{ pagination.page }}
+    {% if pagination.next_url %}
+    &nbsp;&nbsp;<a href="{{ pagination.next_url }}">Older posts</a>
+    {% endif %}
 {% endblock %}

@@ -17,3 +17,5 @@ class Config:
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     ADMINS = os.getenv('ADMIN_EMAILS').split(',')
+
+    POSTS_PER_PAGE = 25
