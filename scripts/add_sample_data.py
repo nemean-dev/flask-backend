@@ -32,7 +32,7 @@ def create_users(users: list[dict]):
         print(f'Error adding users: {e}')
         raise
 
-def follow_and_posts(users, posts):
+def follow_users(users):
     for user in users:
         u = db.session.scalar(sa.select(User).where(User.username == user['username']))
 
@@ -48,22 +48,37 @@ def follow_and_posts(users, posts):
                 except Exception as e:
                     print(f'Error: {u.username} was unable to follow {followed_username}')
                     raise
-        
-        # create posts
-        for post_info in posts:
-            if post_info['author'] == u.username:
-                post = Post(body=post_info['body'], author=u)
-                db.session.add(post)
 
     try:
         db.session.commit()
-        print('Followings and posts added successfully.')
+        print('Followings added successfully.')
     except Exception as e:
         db.session.rollback()
-        print(f'Error adding followings or posts: {e}')
+        print(f'Error adding followings: {e}')
+        raise
+
+def create_posts(posts):
+    for post_info in posts:
+        author = db.session.scalar(sa.select(User).where(User.username == post_info['author']))
+        
+        post = Post(body=post_info['body'], author=author)
+        db.session.add(post)
+
+    try:
+        db.session.commit()
+        print('Posts added successfully.')
+    except Exception as e:
+        db.session.rollback()
+        print(f'Error adding Posts: {e}')
         raise
 
 if __name__=='__main__':
+    # recommended to first clear the db with
+        # flask db downgrade base
+        # flask db upgrade
+    # Warning: the commands above will destroy all database records
+
     with app.app_context():
         create_users(users)
-        follow_and_posts(users, posts)
+        follow_users(users)
+        create_posts(posts)
