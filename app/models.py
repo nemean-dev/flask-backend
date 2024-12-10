@@ -1,10 +1,12 @@
 from datetime import datetime, timezone
+from time import time
 from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin # properties/methods flask_login expects in the user model
-from app import db, login
+import jwt
+from app import db, login, app
 
 # association table. Since it is just an auxiliary table, it is not declared as a model.
 follower_followed = sa.Table(
@@ -109,6 +111,20 @@ class User(UserMixin, db.Model):
             .group_by(Post)
             .order_by(Post.timestamp.desc())
         )
+    
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode(
+            {'reset_password': self.id, 'exp': time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256')
+
+    @staticmethod
+    def verify_reset_password_token(token) -> 'User | None':
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'],
+                            algorithms=['HS256'])['reset_password']
+        except:
+            return
+        return db.session.get(User, id)
    
 class Post(db.Model):
     id: orm.Mapped[int] = orm.mapped_column(primary_key=True)
