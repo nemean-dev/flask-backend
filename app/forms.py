@@ -43,6 +43,8 @@ class EditProfileForm(FlaskForm):
 
     def validate_username(self, username):
         if username.data != current_user.username:
+            #todo: increase modularity: make forms module independent 
+            # of the login implementation so that forms is not dependent on other components.
             user = db.session.scalar(sa.select(User).where(
                 User.username == username.data))
             if user is not None:

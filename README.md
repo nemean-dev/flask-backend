@@ -29,7 +29,7 @@ If environment variables are not defined, app will use default value hardcoded i
 Email Configuration (to recieve server errors by email)
 - `MAIL_SERVER`
 - `MAIL_PORT`
-- `MAIL_USE_TLS`: set to any value to use TLS. Don't declare the variable to use SSL
+- `MAIL_USE_TLS`: App instead uses SSL if this variable is undeclared or if its value is 0.
 - `MAIL_USERNAME`
 - `MAIL_PASSWORD`
 - `ADMINS`: comma-separated, like 'example1@example.com,example2@example.com'

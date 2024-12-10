@@ -13,7 +13,7 @@ class Config:
     
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_PORT = int(os.getenv('MAIL_PORT') or 25)
-    MAIL_USE_TLS = os.getenv('MAIL_USE_TLS') is not None
+    MAIL_USE_TLS = os.getenv('MAIL_USE_TLS') is not None and os.getenv('MAIL_USE_TLS') != 0
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     ADMINS = os.getenv('ADMIN_EMAILS').split(',') if os.getenv('ADMIN_EMAILS') else None
