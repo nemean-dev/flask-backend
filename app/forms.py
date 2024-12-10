@@ -39,11 +39,11 @@ class EditProfileForm(FlaskForm):
     fname = StringField('First Name', validators=[Length(max=128)])
     lname = StringField('Last Name', validators=[Length(max=128)])
     about_me = TextAreaField("About Me: ", validators=[Length(max=140)])
-    submit = SubmitField('Update details')
+    submit = SubmitField('Update Details')
 
     def validate_username(self, username):
         if username.data != current_user.username:
-            #todo: increase modularity: make forms module independent 
+            #TODO: increase modularity: make forms module independent 
             # of the login implementation so that forms is not dependent on other components.
             user = db.session.scalar(sa.select(User).where(
                 User.username == username.data))
@@ -56,3 +56,7 @@ class EmptyForm(FlaskForm):
 class PostForm(FlaskForm):
     post = TextAreaField('Post something!', validators=[DataRequired(), Length(min=1, max=140)])
     submit = SubmitField('Submit')
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField('Your email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Reset Password')

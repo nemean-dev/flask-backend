@@ -4,8 +4,9 @@ from flask import render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, ResetPasswordRequestForm
 from app.models import User, Post
+from app.email import send_password_reset_email
 
 @app.before_request
 def before_request():
@@ -203,3 +204,20 @@ def unfollow(username):
     
     else:
         return redirect(url_for('index'))
+
+@app.route('/reset-password-request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    
+    form = ResetPasswordRequestForm()
+
+    if form.validate_on_submit():
+        email = form.email.data
+        user = db.session.scalar(sa.select(User).where(User.email == email))
+        if user:
+            send_password_reset_email(user)
+            flash("Check your email for instructions on how to reset your password.")
+            return redirect(url_for('login'))
+        
+    return render_template('reset_password_request.html', form=form, title='Reset Password')
