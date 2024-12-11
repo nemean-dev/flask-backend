@@ -2,14 +2,20 @@
  Required variables:
  - Post model instance named 'post' 
 -->
-<table>
-  <tr valign="top">
-    <td><a href="{{ url_for('user', username=post.author.username) }}">
-      {{ post.author.avatar(36) | safe}}
-    </a></td>
-    <td>
-      <a href="{{ url_for('user', username=post.author.username) }}">{{ post.author.username }}</a> says:<br>
-      {{ post.body }}
-    </td>
+<table class="table table-hover">
+  <tr>
+      <td width="70px">
+          <a href="{{ url_for('user', username=post.author.username) }}">
+            {{ post.author.avatar(70) | safe}}
+          </a>
+      </td>
+      <td>
+          <a href="{{ url_for('user', username=post.author.username) }}">
+              {{ post.author.username }}
+          </a>
+          says:
+          <br>
+          {{ post.body }}
+      </td>
   </tr>
 </table>
