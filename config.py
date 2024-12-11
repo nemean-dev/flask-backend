@@ -18,4 +18,4 @@ class Config:
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     ADMINS = os.getenv('ADMIN_EMAILS').split(',') if os.getenv('ADMIN_EMAILS') else None
 
-    POSTS_PER_PAGE = 25
+    POSTS_PER_PAGE = 12

@@ -50,14 +50,19 @@
         </tr>
     </table>
     <hr>
-    {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
-    {% if pagination.prev_url %}
-    <a href="{{ pagination.prev_url }}">Newer posts</a>&nbsp;&nbsp; <!-- TODO: delete here and below and user.html to use css for spacing -->
-    {% endif %}
-    page: {{ pagination.page }}
-    {% if pagination.next_url %}
-    &nbsp;&nbsp;<a href="{{ pagination.next_url }}">Older posts</a>
-    {% endif %}
+
+    <nav aria-label="Post navigation">
+        <ul class="pagination">
+            <li class="page-item{% if not pagination.prev_url %} disabled{% endif %}">
+                <a class="page-link" href="{{ pagination.prev_url }}">
+                    <span aria-hidden="true">&larr;</span> Newer posts
+                </a>
+            </li>
+            <li class="page-item{% if not pagination.next_url %} disabled{% endif %}">
+                <a class="page-link" href="{{ pagination.next_url }}">
+                    Older posts <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 {% endblock %}
