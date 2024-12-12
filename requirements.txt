@@ -22,6 +22,7 @@ packaging==24.2
 PyJWT==2.10.1
 python-dotenv==1.0.1
 pytz==2024.2
+setuptools==75.6.0
 SQLAlchemy==2.0.36
 typing_extensions==4.12.2
 Werkzeug==3.1.3
