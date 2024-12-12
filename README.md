@@ -1,7 +1,5 @@
-# Flask app skeleton
-A basic skeleton with a simple login form. No database implementation yet.
-
-Based on https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+# Flask app
+For learning purposes. Based on the Flask guide at: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
 
 ## Setup
 Developed with Python 3.12.4
