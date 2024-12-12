@@ -13,12 +13,23 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-4. db migration repository
+4. db
 ```bash
-flask db init
+flask db upgrade
 ```
+## Translations
+To add support for a new language:
+1. generate messages.pot
+```bash
+pybabel extract -F babel.cfg -k _l -o messages.pot .
+```
+2. add desired language (here the example is 'es' for Spanish) to Config.py and run the command below (substituting 'es' for the correct language code)
+```bash
+pybabel init -i messages.pot -d app/translations -l es
+```
+3. Edit the `msgstr` fields in the file at `app/translations/<lang>/LC_MESSAGES/messages.po` to translate text.
+4. With translations ready, run `pybabel compile -d app/translations`
 
-To rename the project just change the name of `my_website.py` and the `FLASK_APP` variable at `.flaskenv`.
 
 ## Config
 If environment variables are not defined, app will use default value hardcoded in `config.py`.
@@ -31,6 +42,8 @@ Email Configuration (to recieve server errors by email)
 - `MAIL_USERNAME`
 - `MAIL_PASSWORD`
 - `ADMINS`: comma-separated, like 'example1@example.com,example2@example.com'
+
+To rename the project just change the name of `my_website.py` and the `FLASK_APP` variable at `.flaskenv`.
 
 ## Running the app
 ### Development mode
