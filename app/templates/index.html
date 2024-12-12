@@ -8,29 +8,29 @@
 {% import "bootstrap_wtf.html" as wtf %}
 
 {% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
+  <h1>{{ _("Hi, %(username)s!", username=(current_user.fname if current_user.fname else current_user.username)) }}</h1>
 
-    {% if form %}
-    {{ wtf.form_field(form.post, placeholder="What's on your mind?") }}
-    {{ wtf.form_field(form.submit) }}
-    {% endif %}
+  {% if form %}
+  {{ wtf.form_field(form.post, placeholder=_("What's on your mind?")) }}
+  {{ wtf.form_field(form.submit) }}
+  {% endif %}
 
-    {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
+  {% for post in posts %}
+    {% include '_post.html' %}
+  {% endfor %}
 
-    <nav aria-label="Post navigation">
-        <ul class="pagination">
-            <li class="page-item{% if not pagination.prev_url %} disabled{% endif %}">
-                <a class="page-link" href="{{ pagination.prev_url }}">
-                    <span aria-hidden="true">&larr;</span> Newer posts
-                </a>
-            </li>
-            <li class="page-item{% if not pagination.next_url %} disabled{% endif %}">
-                <a class="page-link" href="{{ pagination.next_url }}">
-                    Older posts <span aria-hidden="true">&rarr;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+  <nav aria-label="{{ _('Post navigation') }}">
+    <ul class="pagination">
+      <li class="page-item{% if not pagination.prev_url %} disabled{% endif %}">
+        <a class="page-link" href="{{ pagination.prev_url }}">
+          <span aria-hidden="true">&larr;</span> {{ _("Newer posts") }}
+        </a>
+      </li>
+      <li class="page-item{% if not pagination.next_url %} disabled{% endif %}">
+        <a class="page-link" href="{{ pagination.next_url }}">
+          {{ _("Older posts") }} <span aria-hidden="true">&rarr;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 {% endblock %}

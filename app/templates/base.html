@@ -7,7 +7,7 @@
     {% if title %}
     <title>{{ title }} - Microblog</title>
     {% else %}
-    <title>Welcome to Microblog</title>
+    <title>{{ _("Welcome to Microblog") }}</title>
     {% endif %}
 
     <link
@@ -41,7 +41,7 @@
                 class="nav-link"
                 aria-current="page"
                 href="{{ url_for('index') }}"
-                >Home</a
+                >{{ _("Home") }}</a
               >
             </li>
             <li class="nav-item">
@@ -49,7 +49,7 @@
                 class="nav-link"
                 aria-current="page"
                 href="{{ url_for('explore') }}"
-                >Explore</a
+                >{{ _("Explore") }}</a
               >
             </li>
           </ul>
@@ -61,7 +61,7 @@
                 class="nav-link"
                 aria-current="page"
                 href="{{ url_for('login') }}"
-                >Login</a
+                >{{ _("Login") }}</a
               >
             </li>
             {% else %}
@@ -70,7 +70,7 @@
                 class="nav-link"
                 aria-current="page"
                 href="{{ url_for('user', username=current_user.username) }}"
-                >Profile</a
+                >{{ _("Profile") }}</a
               >
             </li>
             <li class="nav-item">
@@ -78,7 +78,7 @@
                 class="nav-link"
                 aria-current="page"
                 href="{{ url_for('logout') }}"
-                >Log Out</a
+                >{{ _("Log Out") }}</a
               >
             </li>
             {% endif %}
