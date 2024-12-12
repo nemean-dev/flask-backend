@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-12 18:39+0100\n"
+"POT-Creation-Date: 2024-12-13 00:39+0100\n"
 "PO-Revision-Date: 2024-12-12 16:40+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -94,59 +94,56 @@ msgstr "Restablecer Contraseña"
 msgid "Request Password Reset"
 msgstr "Solicitar Nueva Contraseña"
 
-#: app/routes.py:32
+#: app/routes.py:34
 msgid "Your post was submitted successfully!"
 msgstr "¡Tu publicación se envió con éxito!"
 
-#: app/routes.py:78
+#: app/routes.py:80
 msgid "Invalid login credentials"
 msgstr "Nombre o contraseña incorrecto."
 
-#: app/routes.py:83
+#: app/routes.py:85
 msgid "Successfully logged in"
 msgstr "Inicio de sesión exitoso"
 
-#: app/routes.py:116
+#: app/routes.py:118
 msgid "Congratulations, you are now a registered user! Please sign in"
 msgstr "¡Felicidades! Ya eres un usuario registrado. Por favor inicia sesión."
 
-#: app/routes.py:152
+#: app/routes.py:154
 msgid "Your changes have been saved."
 msgstr "Se guardaron tus cambios."
 
-#: app/routes.py:172
+#: app/routes.py:174 app/routes.py:198
 #, python-format
 msgid "User %(username)s not found."
 msgstr "Usuario %(username)s no encontrado."
 
-#: app/routes.py:176
+#: app/routes.py:178
 msgid "You cannot follow yourself!"
 msgstr "¡No puedes seguir a tu propia cuenta!"
 
-#: app/routes.py:181
+#: app/routes.py:183
 #, python-format
 msgid "You are following %(username)s"
 msgstr "Ahora sigues a %(username)s"
 
-#: app/routes.py:196
-msgid "User (username) not found."
-msgstr ""
-
-#: app/routes.py:200
+#: app/routes.py:202
 msgid "You cannot unfollow yourself!"
 msgstr "¡No puedes no seguir tu propia cuenta!"
 
-#: app/routes.py:205
-msgid "You are not following (username)."
-msgstr ""
+#: app/routes.py:207
+#, python-format
+msgid "You are not following %(username)s."
+msgstr "Ya no sigues a %(username)s"
 
-#: app/routes.py:223
+#: app/routes.py:225
 msgid "Check your email for instructions on how to reset your password."
 msgstr ""
 "Revisa tu correo para obtener instrucciones de cómo restablecer tu "
 "contraseña."
 
-#: app/routes.py:241
+#: app/routes.py:243
 msgid "Your password has been reset."
 msgstr "Se restableció tu contraseña."
 
@@ -210,7 +207,7 @@ msgstr "¡Publica algo!"
 
 #: app/templates/index.html:22 app/templates/user.html:58
 msgid "Post navigation"
-msgstr ""
+msgstr "Navegación de publicaciones"
 
 #: app/templates/index.html:26 app/templates/user.html:62
 msgid "Newer posts"
@@ -286,6 +283,8 @@ msgid ""
 "Alternatively, you can paste the following link in your browser's address"
 " bar:"
 msgstr ""
+"Alternativamente, puedes copiar y pegar el siguiente vínculo en tu "
+"navegador:"
 
 #: app/templates/email/reset_password.html:14
 msgid "If you have not requested a password reset, simply ignore this message."
@@ -298,11 +297,4 @@ msgstr "Sinceramente"
 #: app/templates/email/reset_password.html:16
 msgid "The Microblog Team"
 msgstr "Microblog"
-
-#~ msgid ""
-#~ "También puedes pegar la siguiente "
-#~ "dirección en tu navegador:Alternatively, you"
-#~ " can paste the following link in "
-#~ "your browser's address bar:"
-#~ msgstr ""
 

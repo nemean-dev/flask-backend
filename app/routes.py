@@ -195,7 +195,7 @@ def unfollow(username):
         user = db.session.scalar(sa.select(User).where(User.username == username))
         
         if user is None:
-            flash(_('User (username) not found.', username=username))
+            flash(_('User %(username)s not found.', username=username))
             return redirect(url_for('index'))
         
         if user == current_user:
@@ -204,7 +204,7 @@ def unfollow(username):
         
         current_user.unfollow(user)
         db.session.commit()
-        flash(_('You are not following (username).'))
+        flash(_('You are not following %(username)s.', username=username))
         return redirect(url_for('user', username=username))
     
     else:
