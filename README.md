@@ -17,22 +17,19 @@ pip install -r requirements.txt
 ```bash
 flask db upgrade
 ```
+
 ## Translations
-To add support for a new language:
-1. generate messages.pot
+1. Add a new language:
 ```bash
-pybabel extract -F babel.cfg -k _l -o messages.pot .
+(venv) $ flask translate init <language-code>
 ```
-2. add desired language (here the example is 'es' for Spanish) to Config.py and run the command below (substituting 'es' for the correct language code)
+2. Update languages after making changes to the _() and _l() language markers:
 ```bash
-pybabel init -i messages.pot -d app/translations -l es
+(venv) $ flask translate update
 ```
-3. Edit the `msgstr` fields in the file at `app/translations/<lang>/LC_MESSAGES/messages.po` to translate text.
-4. With translations ready, run `pybabel compile -d app/translations`
-To update translation file:
-```
-(venv) $ pybabel extract -F babel.cfg -k _l -o messages.pot .
-(venv) $ pybabel update -i messages.pot -d app/translations
+3. Compile all languages after updating the `msgstr` fields in the `.po` translation files (one `.po` file per supported language):
+```bash
+(venv) $ flask translate compile
 ```
 
 ## Config
@@ -50,14 +47,10 @@ Email Configuration (to recieve server errors by email)
 To rename the project just change the name of `my_website.py` and the `FLASK_APP` variable at `.flaskenv`.
 
 ## Running the app
-### Development mode
 ```bash
 flask run
 ```
-or 
-```bash
-flask run --debug
-```
+Add `--debug`/`--no-debug` flag (or set `.flaskenv` variable `FLASK_DEBUG` to 0/1) to enable/disbale debug mode.
 
 ## Schema
 Load schema.xml into a viewer like https://sql.toad.cz/ to see database schema.
