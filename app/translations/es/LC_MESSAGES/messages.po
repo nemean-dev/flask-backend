@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-12 16:21+0100\n"
+"POT-Creation-Date: 2024-12-12 18:39+0100\n"
 "PO-Revision-Date: 2024-12-12 16:40+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: app/__init__.py:24
+#: app/__init__.py:25
 msgid "Please log in to access this page."
 msgstr "Por favor inicia sesión para acceder a esta página."
 
@@ -142,7 +142,9 @@ msgstr ""
 
 #: app/routes.py:223
 msgid "Check your email for instructions on how to reset your password."
-msgstr "Revisa tu correo para obtener instrucciones de cómo restablecer tu contraseña."
+msgstr ""
+"Revisa tu correo para obtener instrucciones de cómo restablecer tu "
+"contraseña."
 
 #: app/routes.py:241
 msgid "Your password has been reset."
@@ -280,7 +282,7 @@ msgid "click here"
 msgstr "haz click aquí"
 
 #: app/templates/email/reset_password.html:12
-msgid "También puedes pegar la siguiente dirección en tu navegador:"
+msgid ""
 "Alternatively, you can paste the following link in your browser's address"
 " bar:"
 msgstr ""
@@ -296,4 +298,11 @@ msgstr "Sinceramente"
 #: app/templates/email/reset_password.html:16
 msgid "The Microblog Team"
 msgstr "Microblog"
+
+#~ msgid ""
+#~ "También puedes pegar la siguiente "
+#~ "dirección en tu navegador:Alternatively, you"
+#~ " can paste the following link in "
+#~ "your browser's address bar:"
+#~ msgstr ""
 

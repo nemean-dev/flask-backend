@@ -1,8 +1,8 @@
 from urllib.parse import urlsplit
 from datetime import datetime, timezone
-from flask import render_template, redirect, flash, url_for, request
+from flask import render_template, redirect, flash, url_for, request, g
 from flask_login import current_user, login_user, logout_user, login_required
-from flask_babel import _
+from flask_babel import _, get_locale
 import sqlalchemy as sa
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, \
@@ -18,6 +18,8 @@ def before_request():
         db.session.commit()
         # db.session.add() not needed because any current_user reference invokes user loader callback function, 
         # which will run a database query that will put the target user in the db session.
+
+    g.locale = str(get_locale())
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])

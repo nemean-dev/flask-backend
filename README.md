@@ -29,7 +29,11 @@ pybabel init -i messages.pot -d app/translations -l es
 ```
 3. Edit the `msgstr` fields in the file at `app/translations/<lang>/LC_MESSAGES/messages.po` to translate text.
 4. With translations ready, run `pybabel compile -d app/translations`
-
+To update translation file:
+```
+(venv) $ pybabel extract -F babel.cfg -k _l -o messages.pot .
+(venv) $ pybabel update -i messages.pot -d app/translations
+```
 
 ## Config
 If environment variables are not defined, app will use default value hardcoded in `config.py`.

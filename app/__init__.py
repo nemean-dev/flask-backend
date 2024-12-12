@@ -12,6 +12,7 @@ from config import Config
 
 # for Babel
 def get_locale():
+    # return 'es'
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 app = Flask(__name__)
