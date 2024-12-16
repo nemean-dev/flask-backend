@@ -11,12 +11,17 @@ source venv/bin/activate
 ```
 3. Install dependencies:
 ```bash
-pip install -r requirements.txt
+(venv) $ pip install -r requirements.txt
 ```
-4. db
+4. create the database
 ```bash
-flask db upgrade
+(venv) $ flask db upgrade
 ```
+5. (Optional) Add Lord of the Rings themed sample Users and Posts.
+```bash
+(venv) $ python -m scripts.add_sample_data
+```
+- You can log in to the account of good-aligned characters with password '123', bad characters with password '321' and morally ambiguous characters with password '222'.
 
 ## Translations
 1. Add a new language:
@@ -48,7 +53,7 @@ To rename the project just change the name of `my_website.py` and the `FLASK_APP
 
 ## Running the app
 ```bash
-flask run
+(venv) $ flask run
 ```
 Add `--debug`/`--no-debug` flag (or set `.flaskenv` variable `FLASK_DEBUG` to 0/1) to enable/disbale debug mode.
 
@@ -61,12 +66,12 @@ To implement a change in database models (add a new table, for example) you:
 1. Modify models in app/models.py
 2. Generate a new migration script
 ```bash
-flask db migrate
+(venv) $ flask db migrate -m "short description"
 ```
 3. Review the migration script (will appear at `migrations/versions/`)
 4. Apply the changes to your development database
 ```bash
-flask db upgrade
+(venv) $ flask db upgrade
 ```
 5. Add the migration script to source control and commit it.
 6. Run `flask db upgrade` on production server.
