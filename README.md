@@ -17,7 +17,12 @@ source venv/bin/activate
 ```bash
 (venv) $ flask db upgrade
 ```
-5. (Optional) Add Lord of the Rings themed sample Users and Posts.
+5. Compile language translations
+```bash
+(venv) $ flask translate compile
+```
+6. (Optional) Set environment variables to securely sign data, add email configuration, and add API keys
+7. (Optional) Add Lord of the Rings themed sample Users and Posts.
 ```bash
 (venv) $ python -m scripts.add_sample_data
 ```
