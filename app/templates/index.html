@@ -11,8 +11,7 @@
   <h1>{{ _("Hi, %(username)s!", username=(current_user.fname if current_user.fname else current_user.username)) }}</h1>
 
   {% if form %}
-  {{ wtf.form_field(form.post, placeholder=_("What's on your mind?")) }}
-  {{ wtf.form_field(form.submit) }}
+  {{ wtf.quick_form(form) }}
   {% endif %}
 
   {% for post in posts %}
