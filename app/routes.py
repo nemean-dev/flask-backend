@@ -11,6 +11,7 @@ from app.forms import LoginForm, RegistrationForm, EditProfileForm, \
                       ResetPasswordForm
 from app.models import User, Post
 from app.email import send_password_reset_email
+from app.translate import translate
 
 @app.before_request
 def before_request():
@@ -251,3 +252,9 @@ def reset_password(token):
         return redirect(url_for('login'))
     
     return render_template('reset_password.html', form=form)
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+    data = request.get_json()
+    return {'text': translate(data['text'], data['dest_language'])}
