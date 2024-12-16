@@ -131,6 +131,7 @@ class Post(db.Model):
     body: orm.Mapped[str] = orm.mapped_column(sa.String(600))
     timestamp: orm.Mapped[datetime] = orm.mapped_column(index= True, 
                                                         default= lambda: datetime.now(timezone.utc))
+    language: orm.Mapped[Optional[str]] = orm.mapped_column(sa.String(5))
     user_id: orm.Mapped[int] = orm.mapped_column(sa.ForeignKey(User.id),
                                                  index=True)
     
