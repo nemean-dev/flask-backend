@@ -37,6 +37,12 @@ def translate(text, dest_lang):
     if res.status_code != 200:
         return _('Error: the translation service failed.')
 
-    answer = res.json()["choices"][0]["message"]["content"]
+    try:
+        answer = res.json()["choices"][0]["message"]["content"]
+    except Exception as e:
+        answer = _('The translation failed due to a server error. An admin has been notified.')
+        app.logger.error(
+            f"Exception occurred in translation service: {str(e)}", exc_info=True
+        )
 
     return answer

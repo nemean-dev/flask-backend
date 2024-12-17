@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_login import current_user
 from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, Length
-from flask_babel import lazy_gettext as _l
+from flask_babel import _, lazy_gettext as _l
 import sqlalchemy as sa
 from app import db
 from app.models import User
@@ -21,7 +21,7 @@ class EditProfileForm(FlaskForm):
             user = db.session.scalar(sa.select(User).where(
                 User.username == username.data))
             if user is not None:
-                raise ValidationError(_l('Please use a different username.'))
+                raise ValidationError(_('Please use a different username.'))
             
 class EmptyForm(FlaskForm):
     submit = SubmitField(_l('Submit'))

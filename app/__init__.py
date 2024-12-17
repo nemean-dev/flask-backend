@@ -33,6 +33,9 @@ app.register_blueprint(errors_bp)
 from app.auth import bp as auth_bp
 app.register_blueprint(auth_bp)
 
+from app.main import bp as main_bp
+app.register_blueprint(main_bp)
+
 # logging setup
 if not app.debug:
     # send server errors by email
@@ -63,4 +66,4 @@ if not app.debug:
     app.logger.setLevel(logging.INFO)
     app.logger.info('Microblog startup')    
 
-from app import routes, models
+from app import models
