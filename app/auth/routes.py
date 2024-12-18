@@ -17,7 +17,7 @@ def login():
     
     form = LoginForm()
 
-    if form.validate_on_submit(): # on valid form submission (so only some POSTs)
+    if form.validate_on_submit():
         user = db.session.scalar(sa.select(User).where(
             User.username == form.username.data))
         
@@ -27,9 +27,8 @@ def login():
         
         else:
             login_user(user, remember=form.remember_me.data)
-            flash(_("Successfully logged in")) #TODO: delete?
+            flash(_("You are now logged in"))
 
-            # Redirect user to page they tried to access
             next_page = request.args.get('next')
             if not next_page or urlsplit(next_page).netloc != '':
                 next_page = url_for('main.index')

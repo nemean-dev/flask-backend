@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
 from langdetect import detect, LangDetectException
-from flask import render_template, redirect, flash, url_for, request, g
+from flask import render_template, redirect, flash, url_for, request, g, current_app
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 import sqlalchemy as sa
-from app import app, db
+from app import db
 from app.main import bp
 from app.main.forms import EditProfileForm, EmptyForm, PostForm
 from app.models import User, Post
@@ -44,7 +44,7 @@ def index():
     
     page = request.args.get('page', 1, int)
     posts = db.paginate(current_user.following_posts(), 
-                        page=page, per_page=app.config['POSTS_PER_PAGE'], 
+                        page=page, per_page=current_app.config['POSTS_PER_PAGE'], 
                         error_out=False)
     pagination = {
         'page': page,
@@ -60,7 +60,7 @@ def explore():
     page = request.args.get('page', 1, int)
     query = sa.select(Post).order_by(Post.timestamp.desc())
     posts = db.paginate(query, page=page, 
-                        per_page=app.config['POSTS_PER_PAGE'], 
+                        per_page=current_app.config['POSTS_PER_PAGE'], 
                         error_out=False)
     pagination = {
         'page': page,
@@ -78,7 +78,7 @@ def user(username):
     page = request.args.get('page', 1, int)
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.paginate(query, page=page, 
-                        per_page=app.config['POSTS_PER_PAGE'], 
+                        per_page=current_app.config['POSTS_PER_PAGE'], 
                         error_out=False)
     pagination = {
         'page': page,

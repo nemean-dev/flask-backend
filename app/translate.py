@@ -1,18 +1,18 @@
 import requests
 from langcodes import Language
+from flask import current_app
 from flask_babel import _
-from app import app
 
 def translate(text, dest_lang):
     language = Language.make(dest_lang).display_name()
     print(language)
-    if not app.config.get('OPENAI_API_KEY'):
+    if not current_app.config.get('OPENAI_API_KEY'):
         return _('Error: translation service is not configured.')
 
     url = "https://api.openai.com/v1/chat/completions"
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {app.config['OPENAI_API_KEY']}"
+        "Authorization": f"Bearer {current_app.config['OPENAI_API_KEY']}"
     }
     data = {
         "model": "gpt-4o-mini",
@@ -41,7 +41,7 @@ def translate(text, dest_lang):
         answer = res.json()["choices"][0]["message"]["content"]
     except Exception as e:
         answer = _('The translation failed due to a server error. An admin has been notified.')
-        app.logger.error(
+        current_app.logger.error(
             f"Exception occurred in translation service: {str(e)}", exc_info=True
         )
 
