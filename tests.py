@@ -1,17 +1,23 @@
-import os
-os.environ['DATABASE_URL'] = 'sqlite://'
-
 from datetime import datetime, timezone, timedelta
 import unittest
-from app import app, db
+from config import Config
+from app import create_app, db
 from app.models import User, Post
 
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
 class UserModelCase(unittest.TestCase):
     def setUp(self):
-        self.app_context = app.app_context()
+        self.app = create_app(TestConfig)
+        self.app_context = self.app.app_context()
         self.app_context.push()
-        db.create_all()
+        db.create_all() # uses current_app.config to know where the db is. 
+                        # current_app is configured when an app context is pushed. 
+                        # Here we push it manually, but it is also pushed automatically 
+                        # in each thread before the handling of a request.
+                        # Note: there is also a request context.
 
     def tearDown(self):
         db.session.remove()

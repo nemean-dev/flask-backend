@@ -62,6 +62,12 @@ To rename the project just change the name of `my_website.py` and the `FLASK_APP
 ```
 Add `--debug`/`--no-debug` flag (or set `.flaskenv` variable `FLASK_DEBUG` to 0/1) to enable/disbale debug mode.
 
+## Unit testing
+Run tests with
+```bash
+(venv) $ python tests.py
+```
+
 ## Schema
 Load schema.xml into a viewer like https://sql.toad.cz/ to see database schema.
 
