@@ -8,6 +8,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
+from elasticsearch import Elasticsearch
 from config import Config
 
 # for Babel
@@ -19,7 +20,8 @@ def get_locale():
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
-login.login_view = 'auth.login' # on views with @login_required; redirect to 'login' and come back once logged in.
+login.login_view = 'auth.login' # on views with @login_required; redirect to 
+                                # 'login' and come back once logged in.
 login.login_message = _l('Please log in to access this page.')
 mail = Mail()
 moment = Moment()
@@ -36,6 +38,9 @@ def create_app(config_class=Config) -> Flask:
     mail.init_app(app)
     moment.init_app(app)
     babel.init_app(app, locale_selector=get_locale)
+
+    app.elasticsearch = Elasticsearch(app.config['ELASTICSEARCH_URL']) \
+        if app.config['ELASTICSEARCH_URL'] else None
 
     # blueprints
     from app.cli import bp as cli_bp

@@ -1,6 +1,9 @@
-from app import app, db
 import sqlalchemy as sa
+from flask import current_app
+from app import db
 from app.models import User, Post
+from app.search import add_to_index
+
 from resources.data.users import users
 from resources.data.posts import posts
 
@@ -72,13 +75,19 @@ def create_posts(posts):
         print(f'Error adding Posts: {e}')
         raise
 
+def index_posts():
+    for post in db.session.scalars(sa.select(Post)):
+        add_to_index('posts', post)
+
 if __name__=='__main__':
     # recommended to first clear the db with
         # flask db downgrade base
         # flask db upgrade
     # Warning: the commands above will destroy all database records
 
-    with app.app_context():
+    with current_app.app_context():
         create_users(users)
         follow_users(users)
         create_posts(posts)
+
+        index_posts()

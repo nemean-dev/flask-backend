@@ -1,11 +1,13 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-
 basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
 
 class Config:
+    # customize the app
+    POSTS_PER_PAGE = 12
+    
     # securely sign data
     SECRET_KEY = os.getenv('SECRET_KEY') or \
         'random-hardcoded-string-102839yr1ewqouWsgYM3'
@@ -28,5 +30,5 @@ class Config:
     # supported languages
     LANGUAGES = ['en', 'es']
 
-    # customize the app
-    POSTS_PER_PAGE = 12
+    # elasticsearch
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
