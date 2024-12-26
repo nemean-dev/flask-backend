@@ -1,22 +1,26 @@
 from datetime import datetime, timezone
 from langdetect import detect, LangDetectException
-from flask import render_template, redirect, flash, url_for, request, g, current_app
+from flask import render_template, redirect, flash, url_for, request, g, \
+    current_app
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 import sqlalchemy as sa
 from app import db
 from app.main import bp
-from app.main.forms import EditProfileForm, EmptyForm, PostForm
+from app.main.forms import EditProfileForm, EmptyForm, PostForm, SearchForm
 from app.models import User, Post
 from app.translate import translate
 
-@bp.before_request
+@bp.before_app_request
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.now(timezone.utc)
         db.session.commit()
-        # db.session.add() not needed because any current_user reference invokes user loader callback function, 
-        # which will run a database query that will put the target user in the db session.
+        # db.session.add() not needed because any current_user reference 
+        # invokes user loader callback function, which will run a database 
+        # query that will put the target user in the db session.
+
+        g.search_form = SearchForm()
 
     g.locale = str(get_locale())
 
@@ -48,11 +52,14 @@ def index():
                         error_out=False)
     pagination = {
         'page': page,
-        'next_url': url_for('main.index', page=posts.next_num) if posts.has_next else None,
-        'prev_url': url_for('main.index', page=posts.prev_num) if posts.has_prev else None,
+        'next_url': url_for('main.index', page=posts.next_num) \
+            if posts.has_next else None,
+        'prev_url': url_for('main.index', page=posts.prev_num) \
+            if posts.has_prev else None,
     }
 
-    return render_template('index.html', title='Home', posts=posts.items, form=form, pagination=pagination)
+    return render_template('index.html', title='Home', posts=posts.items, 
+                           form=form, pagination=pagination)
 
 @bp.route('/explore')
 @login_required
@@ -64,11 +71,14 @@ def explore():
                         error_out=False)
     pagination = {
         'page': page,
-        'next_url': url_for('main.explore', page=posts.next_num) if posts.has_next else None,
-        'prev_url': url_for('main.explore', page=posts.prev_num) if posts.has_prev else None,
+        'next_url': url_for('main.explore', page=posts.next_num) \
+            if posts.has_next else None,
+        'prev_url': url_for('main.explore', page=posts.prev_num) \
+            if posts.has_prev else None,
     }
     
-    return render_template('index.html', title='Explore', posts=posts.items, pagination=pagination)
+    return render_template('index.html', title='Explore', posts=posts.items, 
+                           pagination=pagination)
 
 # dynamic routing in flask passes <string_var> as view function argument
 @bp.route('/user/<username>')
@@ -82,12 +92,15 @@ def user(username):
                         error_out=False)
     pagination = {
         'page': page,
-        'next_url': url_for('main.user', username=username, page=posts.next_num) if posts.has_next else None,
-        'prev_url': url_for('main.user', username=username, page=posts.prev_num) if posts.has_prev else None,
+        'next_url': url_for('main.user', username=username, 
+                            page=posts.next_num) if posts.has_next else None,
+        'prev_url': url_for('main.user', username=username, 
+                            page=posts.prev_num) if posts.has_prev else None,
     }
     form = EmptyForm()
 
-    return render_template('user.html', user=user, posts=posts, form=form, pagination=pagination)
+    return render_template('user.html', user=user, posts=posts, form=form, 
+                           pagination=pagination)
 
 @bp.route('/edit-profile', methods=['GET', 'POST'])
 @login_required
@@ -165,3 +178,27 @@ def unfollow(username):
 def translate_text():
     data = request.get_json()
     return {'text': translate(data['text'], data['dest_language'])}
+
+@bp.route('/search')
+@login_required
+def search():
+    if not g.search_form.validate():
+        return redirect(url_for('main.explore'))
+    
+    page = request.args.get('page', 1, type=int)
+    posts, total = Post.search(g.search_form.q.data, page,
+                               current_app.config['POSTS_PER_PAGE'])
+    
+    next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \
+        if total > page * current_app.config['POSTS_PER_PAGE'] else None
+    prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) \
+        if page > 1 else None
+    
+    pagination = {
+        'page': page,
+        'next_url': next_url,
+        'prev_url': prev_url,
+    }
+
+    return render_template('search.html', title=_('Search'), posts=posts, 
+                           pagination=pagination)

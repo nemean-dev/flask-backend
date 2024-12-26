@@ -1,3 +1,4 @@
+from flask import request
 from flask_wtf import FlaskForm
 from flask_login import current_user
 from wtforms import StringField, SubmitField, TextAreaField
@@ -29,3 +30,15 @@ class EmptyForm(FlaskForm):
 class PostForm(FlaskForm):
     post = TextAreaField(_l('Post something!'), validators=[DataRequired(), Length(min=1, max=140)])
     submit = SubmitField(_l('Submit'))
+
+class SearchForm(FlaskForm):
+    q = StringField(_l('Search'), validators=[DataRequired(), Length(max=180)])
+    
+    def __init__(self, *args, **kwargs):
+        if 'formdata' not in kwargs:
+            kwargs['formdata'] = request.args
+            
+        if 'meta' not in kwargs:
+            kwargs['meta'] = {'csrf': False}
+
+        super(SearchForm, self).__init__(*args, **kwargs)
