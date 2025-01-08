@@ -202,3 +202,7 @@ def search():
 
     return render_template('search.html', title=_('Search'), posts=posts, 
                            pagination=pagination)
+
+@bp.route('/test-response')
+def test_response():
+    return "\napp is running\n"

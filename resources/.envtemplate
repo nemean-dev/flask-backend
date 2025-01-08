@@ -1,0 +1,19 @@
+SECRET_KEY=
+
+OPENAI_API_KEY=
+
+# substitute values
+DATABASE_URL=mysql+pymysql://<db-user>:<db-password>@localhost:3306/<db-name>
+
+# mail config
+#MAIL_SERVER=
+#MAIL_PORT=
+#MAIL_USE_TLS=
+
+#MAIL_USERNAME=
+#MAIL_PASSWORD=
+
+#MAIL_ADMINS=
+
+# elasticsearch
+#ELASTICSEARCH_URL=
