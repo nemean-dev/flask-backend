@@ -1,6 +1,6 @@
 import sqlalchemy as sa
-from flask import current_app
-from app import db
+from app import db, create_app
+from config import Config
 from app.models import User, Post
 from app.search import add_to_index
 
@@ -78,14 +78,17 @@ def create_posts(posts):
 def index_posts():
     for post in db.session.scalars(sa.select(Post)):
         add_to_index('posts', post)
+    
+    print("post should now be indexed if elasticsearch is configured")
 
 if __name__=='__main__':
     # recommended to first clear the db with
         # flask db downgrade base
         # flask db upgrade
     # Warning: the commands above will destroy all database records
+    app = create_app(Config)
 
-    with current_app.app_context():
+    with app.app_context():
         create_users(users)
         follow_users(users)
         create_posts(posts)
